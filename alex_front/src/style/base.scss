@@ -1,0 +1,32 @@
+html {
+  font-size: 62.5%; // 1rem is 10px
+  
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  font-weight: normal;
+  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(210,210,210,1) 0%, rgba(182,182,182,1) 47%, rgba(210,210,210,1) 100%);
+  height: 200vh;
+}
