@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faYoutube, faTwitch, faTiktok } from '@fortawesome/free-brands-svg-icons'
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function NavBar() {
   return (
@@ -8,10 +9,10 @@ function NavBar() {
       <div className="nav_bar_wrapper">
         <div className="icon_wrapper"></div>
         <div className="btn_wrapper">
-          <button className="home_btn">Home</button>
-          <button className="about_btn">About</button>
-          <button className="portfolio_btn">Portfolio</button>
-          <button className="contact_btn">Contact</button>
+          <Link to="/home" className="nav_btn">Home</Link>
+          <Link to ="/about" className="nav_btn">About</Link>
+          <Link to="/portfolio" className="nav_btn">Portfolio</Link>
+          <Link to="/contact" className="nav_btn">Contact</Link>
         </div>
         <div className="socials_wrapper">
           <div className="social"><FontAwesomeIcon icon={faYoutube} size="2x" /></div>

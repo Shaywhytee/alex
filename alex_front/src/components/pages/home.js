@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage, faVideo, faUpload } from '@fortawesome/free-solid-svg-icons'
 
 function Home() {
   return (
@@ -20,21 +22,20 @@ function Home() {
           allowFullScreen
         ></iframe>
       </div>
-      <div className="option_wrapper">
-        <div className="services_wrapper">
-          <h2>Services</h2>
-          <ul>
-            <p>Video Editing</p>
-            <p>Personality Coaching</p>
-            <p>Twitch to Youtube</p>
-          </ul>
-        </div>
-        <div className="pricing_wrapper">
-          <h2>Pricing</h2>
-          <div className="price_options">
-            <p>$40 Single Video</p>
-            <p>$70 Two Videos</p>
-            <p>$90 Three Videos</p>
+      <div className="steps_wrapper">
+        <h1>Here's how it works...</h1>
+        <div className="steps_options">
+          <div className="step">
+            <h1>Contact for a quote</h1>
+            <FontAwesomeIcon icon={faMessage} color="rgba(55,55,55,1)" size="4x"/>
+          </div>
+          <div className="step">
+            <h1>Submit your video</h1>
+            <FontAwesomeIcon icon={faVideo} color="rgba(55,55,55,1)" size="4x"/>
+          </div>
+          <div className="step">
+            <h1>Upload your video</h1>
+            <FontAwesomeIcon icon={faUpload} color="rgba(55,55,55,1)" size="4x"/>
           </div>
         </div>
       </div>

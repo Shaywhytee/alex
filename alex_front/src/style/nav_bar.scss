@@ -42,7 +42,7 @@
     justify-content: space-around;
     line-height: 10vh;
     
-      button{
+      .nav_btn{
         width: 7vw;
         height: 10vh;
         background: none;
@@ -50,8 +50,9 @@
         color: white;
         transition: .5s;
         font-size: 2rem;
+        text-decoration: none;
       }
-      button:hover {
+      .nav_btn:hover {
         color: #3aaee1;
         text-shadow: 3px 3px 3px black;
         letter-spacing: 1px;
