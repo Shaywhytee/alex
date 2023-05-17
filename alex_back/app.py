@@ -55,7 +55,7 @@ class Video(db.Model):
 
 class VideoSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'video_name', 'video_description', 'video_length', 'video_size', 'video_tags')
+        fields = ('id', 'video_name', 'video_description', 'video_length', 'video_size', 'video_tags', 'video_link')
 
 video_schema = VideoSchema()
 multi_video_schema = VideoSchema(many=True)
