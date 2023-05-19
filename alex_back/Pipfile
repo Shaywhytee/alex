@@ -9,6 +9,8 @@ sqlalchemy = "*"
 marshmallow = "*"
 bcrypt = "*"
 cors = "*"
+flask-mail = "*"
+pyjwt = "*"
 
 [dev-packages]
 

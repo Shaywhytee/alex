@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
+import jwt
 import os
 
 
@@ -12,10 +14,39 @@ CORS(app)
 
 basedir =  os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'app.sqlite')
+app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = '4c5c7c9bedec3a'
+app.config['MAIL_PASSWORD'] = '33ee1669a06b85'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+
+
+mail = Mail(app)
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 bc = Bcrypt(app)
+
+class Content(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    title = db.Column(db.String)
+    content = db.Column(db.String)
+    link = db.Column(db.String)
+
+    def __init__(self, name, title, content, link):
+        self.name = name
+        self.title = title
+        self.content = content
+        self.link = link
+
+class ContentSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'title', 'content', 'link')
+content_schema = ContentSchema()
+all_content_schema = ContentSchema(many=True)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,6 +91,13 @@ class VideoSchema(ma.Schema):
 video_schema = VideoSchema()
 multi_video_schema = VideoSchema(many=True)
 
+def generate_token(user_id):
+    payload = {"user_id": user_id}
+    token = jwt.encode(payload, "dragon_balls", algorithm="HS256")
+    return token
+
+#User Endpoints
+
 @app.route("/user/create", methods=["POST"])
 def create_user():
     if request.content_type != "application/json":
@@ -70,7 +108,7 @@ def create_user():
     password = post_data.get("password")
     email = post_data.get("email")
 
-    pw_hash = bc.generate_password_hash(password, 19).decode('utf-8')
+    pw_hash = bc.generate_password_hash(password, 12).decode('utf-8')
     
     new_user = User(username, pw_hash, email)
     db.session.add(new_user)
@@ -81,20 +119,28 @@ def create_user():
 @app.route("/verify", methods=["POST"])
 def verify():
     if request.content_type != "application/json":
-        return jsonify("Error: Please send in JSON", 400)
+        return jsonify({"error": "Error: Please send in JSON"}), 400
+
     post_data = request.get_json()
     username = post_data.get("username")
     password = post_data.get("password")
     email = post_data.get("email")
 
-    user = db.session.query(User).filter(
-        (User.username == username) | (User.email == email)).first()
+    user = User.query.filter(
+        (User.username == username) | (User.email == email)
+    ).first()
 
-    
     if user is None:
-        return jsonify("User information is required", 404)
-    if not bc.check_password_hash(user.password, password):
-        return jsonify("User information not verified", 404)
+        return jsonify({"error": "User information is required"}), 404
+
+    if bc.check_password_hash(user.password, password):
+        token = generate_token(user.id)
+        response = make_response(jsonify({"token": token}), 200)
+        response.set_cookie('token', token, httponly=True)
+        return response
+
+    return jsonify({"error": "User information not verified"}), 404
+
     
 @app.route('/user/get')
 def get_users():
@@ -138,6 +184,8 @@ def edit_pw(id):
     db.session.commit()
 
     return jsonify("Password Changed Successfully=", user_schema.dump(user))
+
+#Portfolio Endpoints
 
 @app.route("/video/add", methods=["POST"])
 def add_video():
@@ -208,6 +256,105 @@ def edit_video(id):
     db.session.commit()
     return jsonify({"message": "Video information has been updated"})
 
+#Email Endpoint
+
+@app.route('/send-email', methods=['POST'])
+def send_email():
+    email = request.json.get('email')
+    message = request.json.get('message')
+
+    msg = Message('New Contact Form Submission',
+        sender="shaywhytee@gmail.com",
+        recipients=['swensen42@gmail.com'])
+    msg.body = f"Email: {email}\n\n Message: {message}"
+
+    try:
+        mail.send(msg)
+        return {'success': 'Email sent successfully'}
+    except Exception as e:
+        return {'error': 'Failed to send email', 'error': str(e)}
+    
+# Content Endpoints
+    
+@app.route('/create/content', methods=['POST'])
+def create_content():
+    if request.content_type != "application/json":
+        return jsonify("Error: Please send in JSON", 400)
+    
+    post_data = request.get_json()
+    name = post_data.get("name")
+    title = post_data.get("title")
+    content = post_data.get("content")
+    link = post_data.get("link")
+
+    
+    new_content = Content(name, title, content, link)
+    db.session.add(new_content)
+    db.session.commit()
+
+    return jsonify("Content Added", content_schema.dump(new_content))
+
+@app.route('/create/content/many', methods=['POST'])
+def create_content_many():
+    if request.content_type != "application/json":
+        return jsonify("Error: Please send in JSON", 400)
+    
+    post_data = request.get_json()
+
+    if not post_data or not isinstance(post_data, list):
+        return jsonify("Error: Invalid submission", 400)
+    
+    created_content = []
+
+    for content_data in post_data:
+        name = content_data.get("name")
+        title = content_data.get("title")
+        content = content_data.get("content")
+        link = content_data.get("link")
+
+        new_content = Content(name=name, title=title, content=content, link=link)
+        db.session.add(new_content)
+        created_content.append(new_content)
+
+    db.session.commit()
+    return jsonify("Content Added", all_content_schema.dump(created_content))
+
+@app.route('/get/content')
+def get_content():
+    content = db.session.query(Content).all()
+    return (all_content_schema.dump(content))
+
+@app.route('/content/update', methods=["PUT"])
+def edit_content():
+    if request.content_type != 'application/json':
+        return jsonify("Error:", 400)
+
+
+    put_data = request.get_json()
+    changes = put_data.get('changes')
+
+    if not changes or not isinstance(changes, list):
+        return jsonify("Error: Invalid submission", 400)
+    
+    for change in changes:
+        name = change.get('name')
+        title = change.get('title')
+        content = change.get('content')
+        link = change.get('link')
+
+        edit_content = db.session.query(Content).filter(Content.name == name).first()
+        if not edit_content:
+            return jsonify(f"Error:Content '{name}' not found", 404)
+
+        if title is not None:
+            edit_content.title = title
+        if content is not None:
+            edit_content.content = content
+        if link is not None:
+            edit_content.link = link
+
+    db.session.commit()
+    return jsonify("Content Has Been Updated!")
 
 if __name__ == '__main__':
     app.run(debug=True)
