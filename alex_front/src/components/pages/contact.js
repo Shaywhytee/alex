@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faCat, faShieldCat, faFaceLaughSquint, faExplosion } from "@fortawesome/free-solid-svg-icons";
+import ContactForm from "./contact_form";
+
 
 function Contact() {
   const [selectedOption, setSelectedOption] = useState('');
@@ -52,14 +54,11 @@ function Contact() {
           </button>
         </div>
         {selectedOption === 'email' && (
-          <div className="email_form">
-            <h2>Email Form</h2>
-            <input type="text" placeholder="Enter your email address" />
-          </div>
+          <ContactForm />
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default Contact;

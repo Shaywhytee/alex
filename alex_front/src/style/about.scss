@@ -5,6 +5,7 @@
   justify-content: space-around;
   align-items: center;
   width: 70vw;
+  height: 100%;
   margin-bottom: 5vh;
   padding-bottom: 5vh;
   background-color: #e6e6e6;
@@ -60,7 +61,7 @@
   .squares {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 90vh;
+    height: 100%;
     
     .about_square{
       display: flex;
@@ -90,33 +91,24 @@
       transform: scale(1.2);
     }
     .group_picture {
-    background-image: url(../../static/images/100t.jpg);
       height: 100%;
       width: 20vw;
-      background-size: cover; 
-      background-repeat: no-repeat;
       border-radius: 20px;
       box-shadow: inset 0px 0px 10px 10px white, 0px 0px 10px 2px black;
       transition: 0.5s;
     }
     
     .gaming_picture {
-    background-image: url(../../static/images/alex_computer_shot.jpg);
-    height: 100%;
+      height: 100%;
       width: 20vw;
-      background-size: cover;
-      background-repeat: no-repeat;
       border-radius: 20px;
       box-shadow: inset 0px 0px 10px 10px white, 0px 0px 10px 2px black;
       transition: 0.5s;
     }
 
     .jersey_picture {
-      background-image: url(../../static/images/alex_jersey.jpg);
       height: 100%;
       width: 20vw;
-      background-size: cover;
-      background-repeat: no-repeat;
       border-radius: 20px;
       box-shadow: inset 0px 0px 10px 10px white, 0px 0px 10px 2px black;
       transition: 0.5s;
@@ -127,7 +119,13 @@
       position: relative;
       transform: scale(1.2);
     }
-
+    img {
+      height: 100%;
+      width: 20vw;
+      border-radius: 20px;
+      box-shadow: inset 0px 0px 10px 10px white, 0px 0px 10px 2px black;
+      transition: 0.5s;
+    }
   }
 
 

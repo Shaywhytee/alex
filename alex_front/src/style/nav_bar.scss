@@ -39,12 +39,24 @@
 
     .btn_wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    line-height: 10vh;
+    align-items: center;
+      
+      .user_btns {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .edit_btns {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
     
       .nav_btn{
-        width: 7vw;
-        height: 10vh;
+        width: 10vw;
+        height: 5vh;
         background: none;
         border: none;
         color: white;
@@ -57,6 +69,22 @@
         text-shadow: 3px 3px 3px black;
         letter-spacing: 1px;
       }
+
+    }
+    button{
+      width: 10vw;
+      height: 5vh;
+      background: none;
+      border: none;
+      color: white;
+      transition: .5s;
+      font-size: 2rem;
+      text-decoration: none;
+    }
+    button:hover {
+      color: #3aaee1;
+      text-shadow: 3px 3px 3px black;
+      letter-spacing: 1px;
     }
   }
 }
