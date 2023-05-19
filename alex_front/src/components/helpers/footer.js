@@ -16,9 +16,9 @@ function Footer() {
             <button className="contact_btn">Contact</button>
           </div>
           <div className="socials_wrapper">
-            <div className="social"><FontAwesomeIcon icon={faYoutube} size="2x" /></div>
-            <div className="social"><FontAwesomeIcon icon={faTwitch} size="2x" /></div>
-            <div className="social"><FontAwesomeIcon icon={faTiktok} size="2x" /></div>
+          <div onClick={() => window.open("https://www.youtube.com/@TheHonestClimb", "_blank")} className="social"><FontAwesomeIcon icon={faYoutube} size="2x" /></div>
+          <div onClick={() => window.open("https://www.twitch.tv/thehonestclimb", "_blank")} className="social"><FontAwesomeIcon icon={faTwitch} size="2x" /></div>
+          <div onClick={() => window.open("https://www.tiktok.com/@thehonestclimb", "_blank")} className="social"><FontAwesomeIcon icon={faTiktok} size="2x" /></div>
           </div>
         </div>
         <div className="copyright">

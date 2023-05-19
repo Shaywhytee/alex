@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
-import HonestDragon from "./cards/Honest-Dragon.png"
-import ThievesJersey from "./cards/Thieves-Jersey.png"
-import EditSupreme from "./cards/Edit-Supreme.png"
+import CardDeck from "./cards/cards";
 import { ContentContext } from "../helpers/content_provider";
+import Picture1 from "../../../static/images/100t.jpg";
+import Picture2 from "../../../static/images/alex_computer_shot.jpg";
+import Picture3 from "../../../static/images/alex_jersey.jpg";
 
 
 
@@ -19,34 +20,9 @@ function About() {
     return null
   }
 
-  const[activeCardIndex, setActiveCardIndex] = useState(0)
-    const cardData = [
-      {image: HonestDragon},
-      {image: EditSupreme},
-      {image: ThievesJersey},
-    ];
-
-    const handlNextCard = () => {
-      setActiveCardIndex((prevIndex => (prevIndex + 1) % cardData.length))
-    }
-    
-    const handlPrevCard = () => {
-      setActiveCardIndex((prevIndex => (prevIndex - 1 + cardData.length) % cardData.length))
-    }
-
   return (
     <div className="about_container">
-      <div className="deck_wrapper">
-        <button onClick={handlPrevCard}>&#8249;</button>
-        <div className="deck">
-          {cardData.map((card, index) => (
-            <div key={index} className={`card ${index === activeCardIndex ? "active" : ""}`}>
-              <img src={card.image} alt={`Card ${index +1}`} />
-            </div>
-          ))}
-        </div>
-        <button onClick={handlNextCard}>&#8250;</button>
-      </div>
+      <CardDeck />
       <div className="squares">
         <div className="about_square">
           <h1>{textBox1.title}</h1>

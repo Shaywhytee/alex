@@ -39,9 +39,9 @@ function NavBar() {
           )}
         </div>
         <div className="socials_wrapper">
-          <div className="social"><FontAwesomeIcon icon={faYoutube} size="2x" /></div>
-          <div className="social"><FontAwesomeIcon icon={faTwitch} size="2x" /></div>
-          <div className="social"><FontAwesomeIcon icon={faTiktok} size="2x" /></div>
+          <div onClick={() => window.open("https://www.youtube.com/@TheHonestClimb", "_blank")} className="social"><FontAwesomeIcon icon={faYoutube} size="2x" /></div>
+          <div onClick={() => window.open("https://www.twitch.tv/thehonestclimb", "_blank")} className="social"><FontAwesomeIcon icon={faTwitch} size="2x" /></div>
+          <div onClick={() => window.open("https://www.tiktok.com/@thehonestclimb", "_blank")} className="social"><FontAwesomeIcon icon={faTiktok} size="2x" /></div>
         </div>
         {loggedIn && (
         <button onClick={handleLogout} className="nav_btn">Logout</button>

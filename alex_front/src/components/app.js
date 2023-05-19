@@ -7,6 +7,8 @@ import NavBar from "./helpers/nav_bar";
 import Footer from "./helpers/footer";
 import EditHome from "./pages/auth_pages/edit_home";
 import EditAbout from "./pages/auth_pages/edit_about";
+import EditPortfolio from "./pages/auth_pages/edit_portfolio";
+import EditContact from "./pages/auth_pages/edit_contact"; 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AdminLogin from "./pages/auth_pages/auth";
 import { AuthProvider } from "./pages/auth_pages/auth_context";
@@ -30,6 +32,8 @@ export default function App() {
               <Route path="/contact" component={Contact} />
               <PrivateRoute exact path="/edit_home" component={EditHome} />
               <PrivateRoute path="/edit_about" component={EditAbout} />
+              <PrivateRoute path="/edit_portfolio" component={EditPortfolio} />
+              <PrivateRoute path="/edit_contact" component={EditContact} />
             </Switch>
             <Footer />
           </div>
