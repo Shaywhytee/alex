@@ -12,7 +12,6 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-basedir =  os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres://ppbovbujkjduuh:d0be7a3842f90e45bace8bf17fd898b5b11787c77349ee38a40c78439e2f27a5@ec2-52-205-55-36.compute-1.amazonaws.com:5432/d3psqt62vr2nue'
 app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 2525
